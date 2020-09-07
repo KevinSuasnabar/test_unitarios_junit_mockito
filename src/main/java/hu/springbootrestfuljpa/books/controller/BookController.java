@@ -21,41 +21,41 @@ import hu.springbootrestfuljpa.books.repository.BookRepository;
 @CrossOrigin(origins = "http://localhost:4200")
 public class BookController {
 
-	@Autowired
-	private BookRepository bookRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
-	@GetMapping(path = "/books")
-	public List<Book> retrieveAllBooks() {
-		return bookRepository.findAll();
-	}
+    @GetMapping(path = "/books")
+    public List<Book> retrieveAllBooks() {
+        return bookRepository.findAll();
+    }
 
-	@GetMapping(path = "/books/{id}")
-	public ResponseEntity<Book> retrieveBook(@PathVariable int id) {
-		Optional<Book> book = bookRepository.findById(id);
-		if (book.isPresent()) {
-			return ResponseEntity.ok(book.get());
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	}
+    @GetMapping(path = "/books/{id}")
+    public ResponseEntity<Book> retrieveBook(@PathVariable int id) {
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isPresent()) {
+            return ResponseEntity.ok(book.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-	@PostMapping("/books")
-	public ResponseEntity<Object> createBook(@RequestBody Book book) {
-		if (book.getId() != null && bookRepository.existsById(book.getId())) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
-		return ResponseEntity.ok(bookRepository.save(book));
-	}
+    @PostMapping("/books")
+    public ResponseEntity<Object> createBook(@RequestBody Book book) {
+        if (book.getId() != null && bookRepository.existsById(book.getId())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        return ResponseEntity.ok(bookRepository.save(book));
+    }
 
-	@DeleteMapping(path = "/books/{id}")
-	public ResponseEntity<Object> deleteBook(@PathVariable int id) {
-		Optional<Book> book = bookRepository.findById(id);
-		if (book.isPresent()) {
-			bookRepository.delete(book.get());
-			return ResponseEntity.ok().build();
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	}
+    @DeleteMapping(path = "/books/{id}")
+    public ResponseEntity<Object> deleteBook(@PathVariable int id) {
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isPresent()) {
+            bookRepository.delete(book.get());
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }
